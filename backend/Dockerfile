@@ -1,15 +1,14 @@
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy application files and templates folder
-COPY . .
+COPY . .  # This should copy templates/ if it exists
 
-EXPOSE 5000
+# Optional: ensure templates is copied explicitly (extra-safe)
+COPY templates/ templates/
 
-CMD ["python", "app.py"]
+CMD ["python3", "app.py"]
+
