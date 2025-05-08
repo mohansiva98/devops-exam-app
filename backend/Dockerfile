@@ -1,13 +1,21 @@
-FROM python:3.10-slim
+# Dockerfile
+FROM python:3.8-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install Python dependencies
+# Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy application files and templates folder
+# Install Gunicorn
+RUN pip install gunicorn
+
+# Copy the application code
 COPY . .
 
-CMD ["python", "app.py"]
+# Expose the port
+EXPOSE 5000
+
+# Run the app using Gunicorn (replace 'app' with the name of your Flask app)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
