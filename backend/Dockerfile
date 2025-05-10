@@ -1,32 +1,21 @@
+# Use an official Python runtime as a parent image
 FROM python:3.8-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
-<<<<<<< HEAD
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-COPY . .  # This should copy templates/ if it exists
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Optional: ensure templates is copied explicitly (extra-safe)
-COPY templates/ templates/
-
-CMD ["python3", "app.py"]
-
-=======
-# Install dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Install Gunicorn
-RUN pip install gunicorn
-
-# Copy the application code
-COPY . .
-
-# Expose the port
+# Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# Run the app using Gunicorn (replace 'app' with the name of your Flask app)
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
->>>>>>> 9ebad62a012591ba8b596595539db0f442e55307
+# Define environment variables (optional)
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+# Run the application
+CMD ["flask", "run"]
