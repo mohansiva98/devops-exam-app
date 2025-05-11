@@ -8,7 +8,7 @@ from datetime import datetime
 from xhtml2pdf import pisa
 from flask import render_template_string
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'devops-exam-secret-key')
 
 def get_db_connection():
